@@ -48,6 +48,14 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  void onResetPressed() {
+    timer.cancel();
+    setState(() {
+      isRunning = false;
+      totalSeconds = twentyFiveMinutes;
+    });
+  }
+
   String format(int seconds) {
     var duration = Duration(seconds: seconds);
     return duration.toString().split('.').first.substring(2, 7);
@@ -76,14 +84,30 @@ class _HomeScreenState extends State<HomeScreen> {
           Flexible(
             flex: 2,
             child: Center(
-              child: IconButton(
-                iconSize: 120,
-                color: Theme.of(context).cardColor,
-                onPressed: isRunning ? onPausePressed : onStartPressed,
-                icon: Icon(isRunning
-                    ? Icons.pause_circle_outline
-                    : Icons.play_circle_outline),
-              ),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 80),
+                child: Column(
+                  children: [
+                    IconButton(
+                      iconSize: 120,
+                      color: Theme.of(context).cardColor,
+                      onPressed: isRunning ? onPausePressed : onStartPressed,
+                      icon: Icon(isRunning
+                          ? Icons.pause_circle_outline
+                          : Icons.play_circle_outline),
+                    ),
+                    Transform.translate(
+                      offset: const Offset(0, -10),
+                      child: IconButton(
+                        iconSize: 30,
+                        color: Theme.of(context).cardColor,
+                        onPressed: onResetPressed,
+                        icon: const Icon(Icons.stop),
+                      ),
+                    ),
+                  ],
+                ),
+              ), // Code Challenge
             ),
           ),
           Flexible(
